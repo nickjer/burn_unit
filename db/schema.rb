@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 5) do
+ActiveRecord::Schema[7.0].define(version: 7) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,6 +19,16 @@ ActiveRecord::Schema[7.0].define(version: 5) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "participants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "round_id"], name: "index_participants_on_player_id_and_round_id", unique: true
+    t.index ["player_id"], name: "index_participants_on_player_id"
+    t.index ["round_id"], name: "index_participants_on_round_id"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -53,8 +63,21 @@ ActiveRecord::Schema[7.0].define(version: 5) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "voter_id", null: false
+    t.uuid "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_votes_on_candidate_id"
+    t.index ["voter_id"], name: "index_votes_on_voter_id", unique: true
+  end
+
+  add_foreign_key "participants", "players"
+  add_foreign_key "participants", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
   add_foreign_key "rounds", "players"
   add_foreign_key "rounds", "rounds", column: "previous_id"
+  add_foreign_key "votes", "participants", column: "candidate_id"
+  add_foreign_key "votes", "participants", column: "voter_id"
 end
