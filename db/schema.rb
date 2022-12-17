@@ -46,14 +46,15 @@ ActiveRecord::Schema[7.0].define(version: 7) do
   end
 
   create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "player_id", null: false
+    t.uuid "active_player_id", null: false
     t.uuid "previous_id"
     t.integer "status", default: 0, null: false
     t.text "question"
-    t.boolean "hide_answers", default: false, null: false
+    t.boolean "least_likely", default: false, null: false
+    t.boolean "hide_votes", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_rounds_on_player_id"
+    t.index ["active_player_id"], name: "index_rounds_on_active_player_id"
     t.index ["previous_id"], name: "index_rounds_on_previous_id", unique: true
   end
 
@@ -76,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 7) do
   add_foreign_key "participants", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
-  add_foreign_key "rounds", "players"
+  add_foreign_key "rounds", "players", column: "active_player_id"
   add_foreign_key "rounds", "rounds", column: "previous_id"
   add_foreign_key "votes", "participants", column: "candidate_id"
   add_foreign_key "votes", "participants", column: "voter_id"
