@@ -4,21 +4,21 @@ class Game < ApplicationRecord
   enum status: { playing: 0, completed: 1 }
 
   has_many :players, dependent: :destroy
-  has_many :rounds, through: :players
+  has_many :rounds, dependent: :destroy, order: :order
+
+  # @return [Array<Player>]
+  def active_players
+    players.select(&:active?)
+  end
 
   # @return [Round, nil]
   def current_round
-    @current_round ||= rounds.current.first
+    rounds.last
   end
 
   # @return [Player, nil]
-  def active_player
-    @active_player ||= current_round&.player
-  end
-
-  # @return [Array<Answer>]
-  def current_answers
-    @current_answers ||= current_round&.answers.to_a
+  def current_judge
+    current_round&.judge
   end
 
   # @return [Array<Player>]
@@ -31,7 +31,7 @@ class Game < ApplicationRecord
           next round if round.blank?
 
           player_list.delete_if do |player|
-            !player.existed_in?(round) || player.played_in?(round)
+            !player.existed_since?(round) || player.played_in?(round)
           end
           round.previous
         end
