@@ -68,6 +68,9 @@ group :development do
   gem "rubocop-minitest", require: false
   gem "rubocop-rails", require: false
 
+  # Run multiple services simultaneously
+  gem "foreman"
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
