@@ -4,14 +4,24 @@ class Participant < ApplicationRecord
   belongs_to :player
   belongs_to :round
 
-  has_one :vote, dependent: :destroy, foreign_key: :voter_id, inverse_of: :voter
+  has_one :vote, -> { includes(:voter, :candidate) }, dependent: :destroy,
+    foreign_key: :voter_id, inverse_of: :voter
 
   validates :player, uniqueness: { scope: :round }
   validate :player_in_game
 
+  # @!method name
+  #   @return [String]
+  delegate :name, to: :player
+
   # @return [String]
   def to_label
     player.name
+  end
+
+  # @return [Integer]
+  def score
+    round.votes.count { |vote| vote.candidate == self }
   end
 
   private

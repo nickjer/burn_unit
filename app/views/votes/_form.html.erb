@@ -4,7 +4,7 @@
   <%- if collapsible -%>
     <div class="d-grid gap-2">
       <button
-        class="btn btn-secondary btn-lg mb-3"
+        class="btn btn-secondary btn-lg"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#collapsed_vote_form"
@@ -18,11 +18,12 @@
     <%=
       simple_form_for(
         [vote.new_record? ? vote.voter : nil, vote],
+        html: { class: "mt-2" }
       ) do |form|
     %>
       <%= form.association :candidate, collection: vote.possible_candidates %>
 
-      <div class="d-grid gap-2">
+      <div class="d-grid gap-2 mt-2">
         <%= form.button :submit, class: "btn-primary btn-lg" %>
       </div>
     <%- end -%>

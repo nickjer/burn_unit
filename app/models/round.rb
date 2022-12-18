@@ -6,13 +6,24 @@ class Round < ApplicationRecord
   belongs_to :judge, class_name: "Player"
   belongs_to :game
 
-  has_many :participants, dependent: :destroy
+  has_many :participants, -> { includes(:player, :vote) }, dependent: :destroy,
+    inverse_of: :round
 
   validates :question, length: { in: 3..160 }
   validates :game, uniqueness: { scope: :order }
   validate :judge_in_game
   validate :next_highest_order, on: :create
   validate :all_rounds_completed, on: :create
+
+  # @return [Array<Vote>]
+  def votes
+    participants.map(&:vote).compact
+  end
+
+  # @return [Array<Participant>]
+  def ordered_candidates
+    participants.sort_by { |participant| [participant.score, participant.name] }
+  end
 
   private
 

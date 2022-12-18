@@ -1,0 +1,47 @@
+<%=
+  simple_form_for(
+    round,
+    url: round_completed_rounds_path(round),
+    method: :post,
+    html: {
+      class: "d-grid gap-2 mt-2",
+      data: {
+        controller: "confirm-submit",
+        action: "turbo:before-fetch-request->confirm-submit#showModal"
+      }
+    }
+  ) do |form|
+%>
+  <%= form.button :button, "Tally Votes", class: "btn-danger btn-lg" %>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="createCompletedRoundModal"
+    tabindex="-1"
+    data-confirm-submit-target="modal"
+    aria-labelledby="createCompletedRoundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createCompletedRoundModalLabel">
+            Complete the Round
+          </h5>
+          <button type="button" class="btn-close" data-action="confirm-submit#closeModal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you would like to tally up the votes?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-action="confirm-submit#closeModal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" data-action="confirm-submit#submitForm">
+            Yes, I am sure
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

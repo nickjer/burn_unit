@@ -5,7 +5,7 @@
 %>
 
 <%# Participation Form %>
-<%- if game.current_participant.new_record? -%>
+<%- if game.current_participant&.new_record? -%>
   <%= render "participants/form", participant: game.current_participant %>
 <%- end -%>
 
@@ -14,25 +14,23 @@
   <%= render "votes/form", vote: game.current_participant_vote %>
 <% end %>
 
-<%# [> Round Controls <] %>
-<%# <%- if game.active_player? -%> %>
-<%#   <%- if game.polling? -%> %>
-<%#     <%= render "matching_rounds/form", round: game.current_round %> %>
-<%#   <%- elsif game.matching? -%> %>
-<%#     <%= render "completed_rounds/form", round: game.current_round %> %>
-<%#   <%- end -%> %>
-<%# <%- end -%> %>
+<%# Round Controls %>
+<%- if game.current_player_is_judge? -%>
+  <%- if game.polling? -%>
+    <%= render "completed_rounds/form", round: game.current_round %>
+  <%- end -%>
+<%- end -%>
 
-<%# [> Next Round Controls <] %>
-<%# <%- if game.completed? -%> %>
-<%#   <div id="new_new_round" class="d-grid gap-2 col-md-6 mx-auto"> %>
-<%#     <%= %>
-<%#       link_to( %>
-<%#         "Start New Round", %>
-<%#         new_player_new_round_path(game.current_player), %>
-<%#         method: :get, %>
-<%#         class: "btn btn-success btn-lg" %>
-<%#       ) %>
-<%#     %> %>
-<%#   </div> %>
-<%# <%- end -%> %>
+<%# Next Round Controls %>
+<%- if game.completed? -%>
+  <div id="new_new_round" class="d-grid gap-2 col-md-6 mx-auto">
+    <%=
+      link_to(
+        "Start New Round",
+        new_player_new_round_path(game.current_player),
+        method: :get,
+        class: "btn btn-success btn-lg"
+      )
+    %>
+  </div>
+<%- end -%>
