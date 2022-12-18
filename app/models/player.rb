@@ -8,8 +8,8 @@ class Player < ApplicationRecord
   validates :name, uniqueness: {
     scope: %i[game deleted_at], case_sensitive: false
   }
-  validates :game, uniqueness: {
-    scope: %i[user deleted_at], message: "Player already exists for this game"
+  validates :user, uniqueness: {
+    scope: %i[game deleted_at], message: "is already playing in this game"
   }
   validate :cannot_delete_participating_player
 

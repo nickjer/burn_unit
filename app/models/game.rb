@@ -4,7 +4,7 @@ class Game < ApplicationRecord
   enum status: { playing: 0, completed: 1 }
 
   has_many :players, dependent: :destroy
-  has_many :rounds, dependent: :destroy, order: :order
+  has_many :rounds, -> { order(:order) }, dependent: :destroy, inverse_of: :game
 
   # @return [Array<Player>]
   def active_players
