@@ -54,7 +54,7 @@ class PlayerChannel < ApplicationCable::Channel
     # Reload cache, in particular the instance variables
     game = Game.find(player.game_id)
 
-    game.players.each do |other_player|
+    game.active_players.each do |other_player|
       next if other_player == player
 
       self.class.broadcast_replace_later_to(
@@ -62,7 +62,7 @@ class PlayerChannel < ApplicationCable::Channel
         target: player,
         partial: "players/player",
         locals: {
-          player:, active_player: game.active_player, me: other_player
+          player:, judge: game.current_judge, me: other_player
         }
       )
     end

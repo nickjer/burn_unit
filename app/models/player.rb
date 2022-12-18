@@ -30,6 +30,29 @@ class Player < ApplicationRecord
     deleted_at.blank?
   end
 
+  # @return [Boolean]
+  def readonly?
+    if will_save_change_to_deleted_at?
+      deleted_at_change_to_be_saved.first.present?
+    else
+      deleted_at.present?
+    end
+  end
+
+  # @return [Participant, nil]
+  def current_participant
+    game.current_round.participants.find do |participant|
+      participant.player_id == id
+    end
+  end
+
+  # @return [Vote, nil]
+  def current_vote
+    return if current_participant.blank?
+
+    current_participant.vote
+  end
+
   # @param round [Round, nil]
   # @return [Boolean]
   def existed_since?(round)

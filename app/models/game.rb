@@ -11,6 +11,12 @@ class Game < ApplicationRecord
     players.select(&:active?)
   end
 
+  # @param user [User]
+  # @return [Player, nil]
+  def active_player_for(user)
+    active_players.find { |player| player.user == user }
+  end
+
   # @return [Round, nil]
   def current_round
     rounds.last

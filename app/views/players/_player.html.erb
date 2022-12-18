@@ -1,0 +1,29 @@
+<div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
+  <%- if player.online? || player == me -%>
+    🟢
+  <%- else -%>
+    🔴
+  <%- end -%>
+  <%- if player == judge -%>
+    <i class="bi bi-star-fill"></i>
+  <%- elsif player.current_vote&.persisted? -%>
+    <i class="bi bi-check-square"></i>
+  <%- else -%>
+    <i class="bi bi-square"></i>
+  <%- end -%>
+  -
+  <%- if player == me -%>
+    <strong><%= player.name %></strong>
+    <%=
+      link_to(
+        edit_player_path(player),
+        class: "btn btn-outline-dark btn-sm ms-3",
+        role: "button",
+        data: { "turbo-frame": "main" }
+      ) do %>
+      <i class="bi bi-pencil"></i>
+    <% end %>
+  <%- else -%>
+    <%= player.name %>
+  <%- end -%>
+</div>

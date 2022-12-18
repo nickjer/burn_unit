@@ -68,6 +68,33 @@ class PlayerTest < ActiveSupport::TestCase
     assert_not_predicate player, :active?
   end
 
+  test "#update raises ActiveRecord::ReadOnlyRecord if player is deleted" do
+    player = Player.create!(
+      user: create_user,
+      game: create_game,
+      name: "Bob",
+      deleted_at: Time.current
+    )
+
+    assert_raises ActiveRecord::ReadOnlyRecord do
+      player.update(name: "Alice")
+    end
+  end
+
+  test "#update raises ActiveRecord::ReadOnlyRecord if attempting to " \
+    "undelete the player" do
+    player = Player.create!(
+      user: create_user,
+      game: create_game,
+      name: "Bob",
+      deleted_at: Time.current
+    )
+
+    assert_raises ActiveRecord::ReadOnlyRecord do
+      player.update(deleted_at: nil)
+    end
+  end
+
   [
     ["  Bob \n   Jones\t ", "Bob Jones"],
     ["B\x00ob", "Bob"],

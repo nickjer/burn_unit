@@ -1,0 +1,31 @@
+<%- if notice -%>
+  <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+    <div><%= notice %></div>
+  </div>
+<%- end -%>
+
+<%= turbo_stream_from @game.current_player, channel: PlayerChannel %>
+
+<div class="row mt-2">
+  <%# Current Round View and Controls %>
+  <%= turbo_frame_tag("main", class: "col-md-8 mb-3") do %>
+    <%# <%= render "current_round", game: @game %> %>
+  <% end %>
+
+  <%# Player List %>
+  <div class="col-md-4 mb-3">
+    <strong>Players:</strong>
+    <%= turbo_frame_tag("players", "data-controller": "players") do %>
+      <%=
+        render(
+          @game.active_players,
+          judge: @game.current_judge,
+          me: @game.current_player
+        )
+      %>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to "Create new game", root_path %>

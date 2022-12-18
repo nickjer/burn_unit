@@ -7,7 +7,6 @@ class Round < ApplicationRecord
   belongs_to :game
 
   has_many :participants, dependent: :destroy
-  has_many :votes, through: :participants
 
   validates :question, length: { in: 3..160 }
   validates :game, uniqueness: { scope: :order }

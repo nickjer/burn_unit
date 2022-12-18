@@ -1,0 +1,33 @@
+<%# Question Card & Voting List %>
+<%=
+  render "rounds/round", round: game.current_round,
+    is_judge: game.current_player_is_judge?
+%>
+
+<%# Answer Form %>
+<%- if game.current_player_answer.present? -%>
+  <%= render "answers/form", answer: game.current_player_answer %>
+<% end %>
+
+<%# Round Controls %>
+<%- if game.active_player? -%>
+  <%- if game.polling? -%>
+    <%= render "matching_rounds/form", round: game.current_round %>
+  <%- elsif game.matching? -%>
+    <%= render "completed_rounds/form", round: game.current_round %>
+  <%- end -%>
+<%- end -%>
+
+<%# Next Round Controls %>
+<%- if game.completed? -%>
+  <div id="new_new_round" class="d-grid gap-2 col-md-6 mx-auto">
+    <%=
+      link_to(
+        "Start New Round",
+        new_player_new_round_path(game.current_player),
+        method: :get,
+        class: "btn btn-success btn-lg"
+      )
+    %>
+  </div>
+<%- end -%>
