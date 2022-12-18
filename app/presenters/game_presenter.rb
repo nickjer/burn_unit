@@ -40,4 +40,12 @@ class GamePresenter
   def current_player_is_judge?
     current_player == current_judge
   end
+
+  # @return [Participant, nil]
+  def current_participant
+    return unless polling?
+
+    @current_participant ||=
+      current_round.participants.find_or_initialize_by(player: current_player)
+  end
 end

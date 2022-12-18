@@ -10,7 +10,7 @@
 <div class="row mt-2">
   <%# Current Round View and Controls %>
   <%= turbo_frame_tag("main", class: "col-md-8 mb-3") do %>
-    <%# <%= render "current_round", game: @game %> %>
+    <%= render "current_round", game: @game %>
   <% end %>
 
   <%# Player List %>

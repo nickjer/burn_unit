@@ -1,0 +1,15 @@
+<%# Question Card %>
+<div class="card border-secondary mb-2">
+  <div class="card-body">
+    <strong><%= round.least_likely? ? "Least" : "Most" %> likely to...</strong>
+    <%= round.question %>
+  </div>
+</div>
+
+<%# Show Votes %>
+<%- if round.completed? -%>
+  <%=
+    render "completed_rounds/completed_round", round: round,
+      is_judge: is_judge
+  %>
+<%- end -%>

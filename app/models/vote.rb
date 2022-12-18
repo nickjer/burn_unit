@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Vote < ApplicationRecord
-  belongs_to :voter, class_name: "Participant"
+  belongs_to :voter, class_name: "Participant", inverse_of: :vote
   belongs_to :candidate, class_name: "Participant"
 
   validates :voter, uniqueness: true

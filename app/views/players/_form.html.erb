@@ -1,10 +1,7 @@
 <%= simple_form_for(player, url: player.new_record? ? game_players_path : nil) do |form| %>
   <%= form.error_notification %>
-  <%- if form.object.errors[:base].present? -%>
-    <%= form.error_notification message: form.object.errors[:base].to_sentence %>
-  <%- end -%>
-  <%- if form.object.errors[:game].present? -%>
-    <%= form.error_notification message: form.object.errors[:game].to_sentence %>
+  <%- form.object.errors.to_hash(true).slice(:base, :game, :user).each_value do |error_msg| -%>
+    <%= form.error_notification message: error_msg.to_sentence %>
   <%- end -%>
 
   <%= form.input :name, label: "Player name", input_html: { maxlength: 20 } %>
