@@ -9,6 +9,11 @@ class Participant < ApplicationRecord
   validates :player, uniqueness: { scope: :round }
   validate :player_in_game
 
+  # @return [String]
+  def to_label
+    player.name
+  end
+
   private
 
   # @return [void]

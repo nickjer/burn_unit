@@ -8,19 +8,24 @@ class Vote < ApplicationRecord
   validate :cannot_vote_for_self
   validate :must_be_in_same_round
 
+  # @return [Array<Participant>]
+  def possible_candidates
+    voter.round.participants.sort_by(&:to_label)
+  end
+
   private
 
   # @return [void]
   def cannot_vote_for_self
     return if voter != candidate
 
-    errors.add(:candidate, "Cannot be same as voter")
+    errors.add(:candidate, "cannot be same as voter")
   end
 
   # @return [void]
   def must_be_in_same_round
     return if voter.round == candidate.round
 
-    errors.add(:candidate, "Must be in the same round as voter")
+    errors.add(:candidate, "must be in the same round as voter")
   end
 end

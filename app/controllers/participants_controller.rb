@@ -4,7 +4,7 @@ class ParticipantsController < ApplicationController
   # POST /rounds/:round_id/participants
   def create
     round = Round.where(
-      game: Game.where(players: Player.where(user: @user, deleted_at: nil))
+      game: Game.where(players: Player.active.where(user: @user))
     ).find(params[:round_id])
 
     player = round.game.active_player_for(@user)

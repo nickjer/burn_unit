@@ -1,0 +1,30 @@
+<%- collapsible = !vote.new_record? && vote.valid? -%>
+
+<%= turbo_frame_tag("vote_form") do %>
+  <%- if collapsible -%>
+    <div class="d-grid gap-2">
+      <button
+        class="btn btn-secondary btn-lg mb-3"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapsed_vote_form"
+        aria-expanded="false"
+        aria-controls="collapsed_vote_form">
+        Show/Hide Vote
+      </button>
+    </div>
+  <%- end -%>
+  <div id="collapsed_vote_form" class="<%= "collapse" if collapsible %>">
+    <%=
+      simple_form_for(
+        [vote.new_record? ? vote.voter : nil, vote],
+      ) do |form|
+    %>
+      <%= form.association :candidate, collection: vote.possible_candidates %>
+
+      <div class="d-grid gap-2">
+        <%= form.button :submit, class: "btn-primary btn-lg" %>
+      </div>
+    <%- end -%>
+  </div>
+<% end %>

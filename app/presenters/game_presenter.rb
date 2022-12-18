@@ -48,4 +48,12 @@ class GamePresenter
     @current_participant ||=
       current_round.participants.find_or_initialize_by(player: current_player)
   end
+
+  # @return [Vote, nil]
+  def current_participant_vote
+    return if current_participant.blank? || current_participant.new_record?
+
+    @current_participant_vote ||=
+      current_participant.vote.presence || current_participant.build_vote
+  end
 end

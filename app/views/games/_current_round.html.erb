@@ -9,10 +9,10 @@
   <%= render "participants/form", participant: game.current_participant %>
 <%- end -%>
 
-<%# [> Answer Form <] %>
-<%# <%- if game.current_player_answer.present? -%> %>
-<%#   <%= render "answers/form", answer: game.current_player_answer %> %>
-<%# <% end %> %>
+<%# Vote Form %>
+<%- if game.current_participant_vote.present? -%>
+  <%= render "votes/form", vote: game.current_participant_vote %>
+<% end %>
 
 <%# [> Round Controls <] %>
 <%# <%- if game.active_player? -%> %>

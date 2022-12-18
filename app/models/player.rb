@@ -4,6 +4,8 @@ class Player < ApplicationRecord
   belongs_to :user
   belongs_to :game
 
+  scope :active, -> { where(deleted_at: nil) }
+
   validates :name, length: { in: 3..20 }
   validates :name, uniqueness: {
     scope: %i[game deleted_at], case_sensitive: false
