@@ -3,10 +3,9 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :new_games, only: %i[create new]
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root "new_games#new"
 
   mount Sidekiq::Web => "/sidekiq" if Rails.env.development?
 end
