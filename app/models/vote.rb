@@ -24,6 +24,7 @@ class Vote < ApplicationRecord
 
   # @return [void]
   def must_be_in_same_round
+    return if candidate.blank?
     return if voter.round == candidate.round
 
     errors.add(:candidate, "must be in the same round as voter")
