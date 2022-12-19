@@ -16,6 +16,10 @@ class GamePresenter
     raise "Game presenter needs a current round to draw" if current_round.blank?
   end
 
+  # @!method to_param
+  #   @return [String]
+  delegate :to_param, to: :game
+
   # @!method current_round
   #   @return [Round]
   delegate :current_round, to: :game

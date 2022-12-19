@@ -1,35 +1,36 @@
 # frozen_string_literal: true
 
-class NewGameForm < ApplicationForm
-  # @return [Player]
-  attr_reader :player
-
+class TurnForm < ApplicationForm
   # @return [Round]
   attr_reader :round
+
+  # @return [Round]
+  attr_reader :previous_round
 
   # @return [Game]
   attr_reader :game
 
   # Validations
-  validate :player_is_valid
+  validates :previous_round_status, inclusion: { in: %w[completed] }
   validate :round_is_valid
 
+  # @param game [Game]
   # @param user [User]
   # @param params [#to_h]
-  def initialize(user:, **params)
-    @player = Player.new(user:)
+  def initialize(game:, user:, **params)
+    @game = game
+    @previous_round = game.current_round
+
+    player = game.active_player_for!(user)
     @round = Round.new(
-      judge: @player,
-      participants: [Participant.new(player: @player)]
+      game:,
+      judge: player,
+      participants: [Participant.new(player:)],
+      hide_votes: previous_round.hide_votes,
+      order: previous_round.order + 1
     )
-    @game = Game.new(players: [@player], rounds: [@round])
     super(params)
   end
-
-  # @!method player_attributes=(new_attributes)
-  #   @param new_attributes [#each_pair]
-  #   @return [void]
-  delegate :attributes=, to: :player, prefix: :player
 
   # @!method round_attributes=(new_attributes)
   #   @param new_attributes [#each_pair]
@@ -40,16 +41,13 @@ class NewGameForm < ApplicationForm
   def save
     return false unless valid?
 
-    game.save
+    round.save
   end
 
   private
 
-  # @return [void]
-  def player_is_valid
-    return if player.valid?
-
-    errors.add(:player, "is invalid")
+  def previous_round_status
+    previous_round.status
   end
 
   # @return [void]

@@ -17,6 +17,16 @@ class Game < ApplicationRecord
     active_players.find { |player| player.user == user }
   end
 
+  # @param user [User]
+  # @return [Player]
+  def active_player_for!(user)
+    active_player_for(user) ||
+      raise(ActiveRecord::RecordNotFound, <<~ERROR.squish)
+        Couldn't find Active Player with 'user_id'=#{user.id} for
+        'game_id'=#{id}
+      ERROR
+  end
+
   # @return [Round, nil]
   def current_round
     rounds.last
