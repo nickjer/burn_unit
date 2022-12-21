@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class TurnsController < ApplicationController
-  # GET /games/:game_id/turns/new
+  # GET /players/:player_id/turns/new
   def new
-    @turn = TurnForm.new(game:, user: @user)
+    @turn = TurnForm.new(judge: player)
   end
 
-  # POST /games/:game_id/turns
+  # POST /players/:player_id/turns
   def create
-    @turn = TurnForm.new(game:, user: @user, **turn_params)
+    @turn = TurnForm.new(judge: player, **turn_params)
 
     if @turn.save
       redirect_to game_path(@turn.game)
@@ -19,14 +19,9 @@ class TurnsController < ApplicationController
 
   private
 
-  # @return [Game]
-  def game
-    @game ||= Game.find(params[:game_id])
-  end
-
-  # @return [Player, nil]
+  # @return [Player]
   def player
-    @player ||= game.active_player_for(@user)
+    @player ||= Player.where(user: @user).find(params[:player_id])
   end
 
   # @return [ActionController::Parameters]

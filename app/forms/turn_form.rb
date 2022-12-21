@@ -14,18 +14,16 @@ class TurnForm < ApplicationForm
   validates :previous_round_status, inclusion: { in: %w[completed] }
   validate :round_is_valid
 
-  # @param game [Game]
-  # @param user [User]
+  # @param judge [Player]
   # @param params [#to_h]
-  def initialize(game:, user:, **params)
-    @game = game
+  def initialize(judge:, **params)
+    @game = judge.game
     @previous_round = game.current_round
 
-    player = game.active_player_for!(user)
     @round = Round.new(
       game:,
-      judge: player,
-      participants: [Participant.new(player:)],
+      judge:,
+      participants: [Participant.new(player: judge)],
       hide_votes: previous_round.hide_votes,
       order: previous_round.order + 1
     )
