@@ -1,0 +1,48 @@
+version: "3"
+
+x-app: &default_app
+  image: burn_unit:prod
+  build:
+    context: .
+    dockerfile: docker/prod/Dockerfile
+  environment:
+    PGUSER: burn_unit
+    REDIS_URL: redis://burn_unit_cache
+  volumes:
+    - burn_unit_db_socket:/var/run/postgresql
+
+volumes:
+  burn_unit_db_socket:
+  burn_unit_db_data:
+
+services:
+  burn_unit:
+    <<: *default_app
+    command: ["bin/rails", "server", "--binding", "0.0.0.0", "--port", "3000"]
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - burn_unit_db
+      - burn_unit_cache
+      - burn_unit_worker
+  burn_unit_db:
+    image: postgres:15
+    command: ["postgres", "-c", "listen_addresses="]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: burn_unit
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - burn_unit_db_socket:/var/run/postgresql
+      - burn_unit_db_data:/var/lib/postgresql/data
+  burn_unit_cache:
+    image: redis:7
+    restart: unless-stopped
+  burn_unit_worker:
+    <<: *default_app
+    command: ["bundle", "exec", "sidekiq"]
+    restart: unless-stopped
+    depends_on:
+      - burn_unit_db
+      - burn_unit_cache
