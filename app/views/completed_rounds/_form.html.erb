@@ -12,11 +12,7 @@
     }
   ) do |form|
 %>
-  <%=
-    form.button :button, "Tally Votes",
-      class: "btn-warning btn-lg",
-      disabled: round.votes.size < 3
-  %>
+  <%= form.button :button, "Tally Votes", class: "btn-warning btn-lg" %>
 
   <!-- Modal -->
   <div
