@@ -1,4 +1,4 @@
-<%= simple_form_for turn, url: game_turns_path(turn.game) do |form| %>
+<%= simple_form_for turn, url: player_turns_path(turn.judge) do |form| %>
   <%= form.error_notification %>
   <%- form.object.errors.to_hash(true).except(:round).each_value do |error_msgs| -%>
     <%= form.error_notification message: error_msgs.to_sentence %>
@@ -11,7 +11,7 @@
 
     <%= round_form.input :question, as: :text, input_html: { maxlength: 160 } %>
     <%= round_form.input :least_likely, as: :boolean %>
-    <%= round_form.input :hide_votes, as: :boolean %>
+    <%= round_form.input :hide_voters, as: :boolean %>
   <%- end -%>
 
   <div class="d-grid gap-2 col-md-6 mx-auto">

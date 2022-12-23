@@ -7,9 +7,6 @@ class TurnForm < ApplicationForm
   # @return [Round]
   attr_reader :previous_round
 
-  # @return [Game]
-  attr_reader :game
-
   # Validations
   validates :previous_round_status, inclusion: { in: %w[completed] }
   validate :round_is_valid
@@ -17,18 +14,25 @@ class TurnForm < ApplicationForm
   # @param judge [Player]
   # @param params [#to_h]
   def initialize(judge:, **params)
-    @game = judge.game
-    @previous_round = game.current_round
+    @previous_round = judge.game.current_round
 
     @round = Round.new(
-      game:,
+      game: judge.game,
       judge:,
       participants: [Participant.new(player: judge)],
-      hide_votes: previous_round.hide_votes,
+      hide_voters: previous_round.hide_voters,
       order: previous_round.order + 1
     )
     super(params)
   end
+
+  # @!method judge
+  #   @return [Player]
+  delegate :judge, to: :round
+
+  # @!method game
+  #   @return [Game]
+  delegate :game, to: :round
 
   # @!method round_attributes=(new_attributes)
   #   @param new_attributes [#each_pair]

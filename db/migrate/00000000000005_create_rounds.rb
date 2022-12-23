@@ -10,7 +10,7 @@ class CreateRounds < ActiveRecord::Migration[7.0]
       t.integer :status, default: 0, null: false
       t.text :question
       t.boolean :least_likely, default: false, null: false
-      t.boolean :hide_votes, default: false, null: false
+      t.boolean :hide_voters, default: false, null: false
 
       t.timestamps
 

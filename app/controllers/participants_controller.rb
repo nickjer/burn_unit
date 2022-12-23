@@ -4,9 +4,10 @@ class ParticipantsController < ApplicationController
   # POST /rounds/:round_id/participants
   def create
     round = Round.where(
-      game: Game.where(players: Player.active.where(user: @user)),
-      status: :polling
+      game: Game.where(players: Player.active.where(user: @user))
     ).find(params[:round_id])
+
+    return redirect_to(round.game) unless round.polling?
 
     player = round.game.active_player_for(@user)
     participant = round.participants.build(player:)

@@ -10,7 +10,9 @@ class Vote < ApplicationRecord
 
   # @return [Array<Participant>]
   def possible_candidates
-    voter.round.participants.sort_by(&:to_label)
+    voter.round.participants
+      .reject { |participant| participant == voter }
+      .sort_by(&:to_label)
   end
 
   private

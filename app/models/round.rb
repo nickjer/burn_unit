@@ -22,7 +22,13 @@ class Round < ApplicationRecord
 
   # @return [Array<Participant>]
   def ordered_candidates
-    participants.sort_by { |participant| [participant.score, participant.name] }
+    participants
+      .sort_by { |candidate| [-candidate.total_votes, candidate.name] }
+  end
+
+  # @return [Boolean]
+  def show_voters?
+    !hide_voters?
   end
 
   private

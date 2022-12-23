@@ -31,15 +31,12 @@ class Game < ApplicationRecord
   def inactive_players(num_rounds: 3)
     @inactive_players ||=
       begin
-        player_list = players.to_a.dup
+        player_list = active_players.to_a.dup
 
-        num_rounds.times.reduce(current_round) do |round, _index|
-          next round if round.blank?
-
+        rounds.last(num_rounds).each do |round|
           player_list.delete_if do |player|
             !player.existed_since?(round) || player.played_in?(round)
           end
-          round.previous
         end
 
         player_list

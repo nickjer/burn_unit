@@ -24,7 +24,7 @@ class NewGamesController < ApplicationController
     params.require(:new_game_form)
       .permit(
         player_attributes: %i[name],
-        round_attributes: %i[question least_likely hide_votes]
+        round_attributes: %i[question least_likely hide_voters]
       )
   end
 end

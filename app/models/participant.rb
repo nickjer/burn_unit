@@ -19,9 +19,19 @@ class Participant < ApplicationRecord
     player.name
   end
 
+  # @return [Array<Vote>]
+  def votes
+    round.votes.select { |vote| vote.candidate == self }
+  end
+
+  # @return [Array<Participant>]
+  def voters
+    votes.map(&:voter).sort_by(&:to_label)
+  end
+
   # @return [Integer]
-  def score
-    round.votes.count { |vote| vote.candidate == self }
+  def total_votes
+    votes.size
   end
 
   private

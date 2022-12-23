@@ -21,13 +21,13 @@
   <%- end -%>
 <%- end -%>
 
-<%# Next Round Controls %>
+<%# Next Turn Controls %>
 <%- if game.completed? -%>
   <div id="new_turn" class="d-grid gap-2">
     <%=
       link_to(
         "Create Next Turn",
-        new_game_turn_path(game),
+        new_player_turn_path(game.current_player),
         method: :get,
         class: "btn btn-success btn-lg"
       )

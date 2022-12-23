@@ -1,7 +1,17 @@
 <div class="card text-bg-light mb-2">
-  <div class="card-body">
-    <p class="card-text">
-      <%= participant.score %> - <%= participant.name %>
-    </p>
+  <div class="card-header">
+    <h5 class="card-title">
+      <%= participant.name %>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <%= pluralize(participant.total_votes, 'total vote') %>
+    </h6>
   </div>
+  <%- if show_voters -%>
+    <ul class="list-group list-group-flush">
+      <%- participant.voters.each do |voter| -%>
+        <li class="list-group-item"><%= voter.to_label %></li>
+      <%- end -%>
+    </ul>
+  <%- end -%>
 </div>

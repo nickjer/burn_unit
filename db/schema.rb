@@ -52,7 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 7) do
     t.integer "status", default: 0, null: false
     t.text "question"
     t.boolean "least_likely", default: false, null: false
-    t.boolean "hide_votes", default: false, null: false
+    t.boolean "hide_voters", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id", "order"], name: "index_rounds_on_game_id_and_order", unique: true

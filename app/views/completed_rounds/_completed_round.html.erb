@@ -1,3 +1,3 @@
 <div id="votes" class="list-group mt-2">
-  <%= render round.ordered_candidates %>
+  <%= render round.ordered_candidates, show_voters: round.show_voters? %>
 </div>
