@@ -18,10 +18,10 @@ volumes:
 services:
   burn_unit:
     <<: *default_app
-    command: ["bin/rails", "server", "--binding", "0.0.0.0", "--port", "3000"]
+    command: ["bin/rails", "server", "--binding", "0.0.0.0", "--port", "3001"]
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - 3001:3001
     depends_on:
       - burn_unit_db
       - burn_unit_cache
