@@ -4,7 +4,8 @@ class VotesController < ApplicationController
   # POST /participants/:participant_id/votes
   def create
     participant = Participant.where(
-      player: Player.active.where(user: @user)
+      player: Player.active.where(user: @user),
+      round: Round.polling
     ).find(params[:participant_id])
 
     @vote = participant.build_vote(vote_params)
@@ -20,7 +21,10 @@ class VotesController < ApplicationController
   # PATCH/PUT /votes/:id
   def update
     @vote = Vote.where(
-      voter: Participant.where(player: Player.active.where(user: @user))
+      voter: Participant.where(
+        player: Player.active.where(user: @user),
+        round: Round.polling
+      )
     ).find(params[:id])
 
     if @vote.update(vote_params)
