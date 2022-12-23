@@ -15,11 +15,11 @@
 <% end %>
 
 <%# Round Controls %>
-<%- if game.current_player_is_judge? -%>
-  <%- if game.polling? -%>
+<div id="round_controls">
+  <%- if game.current_player_is_judge? && game.polling? -%>
     <%= render "completed_rounds/form", round: game.current_round %>
   <%- end -%>
-<%- end -%>
+</div>
 
 <%# Next Turn Controls %>
 <%- if game.completed? -%>

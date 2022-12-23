@@ -11,6 +11,7 @@ class VotesController < ApplicationController
     @vote = participant.build_vote(vote_params)
 
     if @vote.save
+      RedrawRoundControlsJob.perform_later(participant.round)
       RedrawPlayerJob.perform_later(participant.player)
       render :update
     else
