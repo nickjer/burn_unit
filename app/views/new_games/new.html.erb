@@ -19,8 +19,15 @@
       <%= round_form.error_notification message: error_msgs.to_sentence %>
     <%- end -%>
 
-    <%= round_form.input :question, as: :text, input_html: { maxlength: 160 } %>
-    <%= round_form.input :least_likely, as: :boolean %>
+    <%=
+      round_form.input :least_likely,
+        legend_tag: false,
+        as: :radio_buttons,
+        collection: [[false, "Most likely to..."], [true, "Least likely to..."]],
+        label_method: :second,
+        value_method: :first
+    %>
+    <%= round_form.input :question, as: :text, label: false, input_html: { maxlength: 160 } %>
     <%= round_form.input :hide_voters, as: :boolean %>
   <% end %>
 
