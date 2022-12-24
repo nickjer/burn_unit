@@ -1,19 +1,18 @@
-<div id="<%= dom_id player %>" data-players-target="player" data-sort-by="<%= player.name %>">
-  <%- if player.online? || player == me -%>
-    🟢
-  <%- else -%>
-    🔴
-  <%- end -%>
-  <%- if player == judge -%>
-    <i class="bi bi-star-fill"></i>
-  <%- elsif player.current_vote&.persisted? -%>
-    <i class="bi bi-check-square"></i>
-  <%- else -%>
-    <i class="bi bi-square"></i>
-  <%- end -%>
-  -
-  <%- if player == me -%>
-    <strong><%= player.name %></strong>
+<div
+  id="<%= dom_id player %>"
+  data-sorter-target="item"
+  data-sort-by="<%= player.name %>"
+  data-controller="player"
+  data-player-online-value="<%= player.online? || player == me %>"
+  data-player-voted-value="<%= player.current_vote&.persisted?.present? %>"
+  data-player-judge-value="<%= player == judge %>"
+  data-player-me-value="<%= player == me %>"
+  data-player-name-value="<%= player.name %>"
+  data-player-id-value="<%= player.id %>"
+  data-player-edit-url-value="<%= edit_player_path(player) %>"
+>
+  <div data-player-target="name" class="d-inline"></div>
+  <div data-player-target="edit" class="d-none">
     <%=
       link_to(
         edit_player_path(player),
@@ -23,7 +22,5 @@
       ) do %>
       <i class="bi bi-pencil"></i>
     <% end %>
-  <%- else -%>
-    <%= player.name %>
-  <%- end -%>
+  </div>
 </div>

@@ -1,17 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="players"
+// Connects to data-controller="sorter"
 export default class extends Controller {
-  static targets = [ "player" ]
+  static targets = [ "item" ]
   connect() {
   }
 
-  playerTargetConnected(element) {
-    this.sortElements(this.playerTargets).forEach(this.appendElement)
+  itemTargetConnected(element) {
+    this.sortElements(this.itemTargets).forEach(this.appendElement)
   }
 
-  sortElements(playerElements) {
-    return Array.from(playerElements).sort(this.compareElements)
+  sortElements(itemElements) {
+    return Array.from(itemElements).sort(this.compareElements)
   }
 
   compareElements(firstElement, secondElement) {

@@ -16,7 +16,7 @@
   <%# Player List %>
   <div class="col-md-4 mb-3">
     <strong>Players:</strong>
-    <%= turbo_frame_tag("players", "data-controller": "players") do %>
+    <%= turbo_frame_tag("players", class: "players", "data-controller": "sorter") do %>
       <%=
         render(
           @game.active_players,
