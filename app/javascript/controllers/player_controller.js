@@ -13,6 +13,10 @@ export default class extends Controller {
 
   static targets = [ "name", "edit" ]
 
+  initialize() {
+    this.element.classList.add("player")
+  }
+
   connect() {
     let name
     if (this.judgeValue) {

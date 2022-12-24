@@ -12,7 +12,15 @@
     }
   ) do |form|
 %>
-  <%= form.button :button, "Tally Votes", class: "btn-warning btn-lg" %>
+  <%=
+    form.button :button, "Tally Votes",
+      class: "btn-warning btn-lg",
+      data: {
+        controller: "tally-votes",
+        "tally-votes-player-outlet": ".player"
+      },
+      disabled: true
+  %>
 
   <!-- Modal -->
   <div
