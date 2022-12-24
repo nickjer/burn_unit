@@ -23,8 +23,8 @@ class PlayerChannel < ApplicationCable::Channel
   # @return [void]
   def subscribed
     if player.present? && player.user == current_user
-      broadcast_player_to_game
       stream_from stream_name
+      broadcast_player_to_game
     else
       reject
     end
@@ -32,6 +32,7 @@ class PlayerChannel < ApplicationCable::Channel
 
   # @return [void]
   def unsubscribed
+    stop_stream_from stream_name
     broadcast_player_to_game
   end
 
