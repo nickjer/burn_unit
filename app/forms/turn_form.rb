@@ -16,10 +16,12 @@ class TurnForm < ApplicationForm
   def initialize(judge:, **params)
     @previous_round = judge.game.current_round
 
+    participants = judge.game.active_players
+      .map { |player| Participant.new(player:) }
     @round = Round.new(
       game: judge.game,
       judge:,
-      participants: [Participant.new(player: judge)],
+      participants:,
       hide_voters: previous_round.hide_voters,
       order: previous_round.order + 1
     )

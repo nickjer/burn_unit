@@ -68,7 +68,8 @@ class Player < ApplicationRecord
   def played_in?(round)
     return false if round.blank?
 
-    round.participants.any? { |participant| participant.player_id == id }
+    round.participants.find { |participant| participant.player_id == id }
+      &.vote.present?
   end
 
   private
