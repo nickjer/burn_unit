@@ -11,6 +11,15 @@ class Game < ApplicationRecord
     players.select(&:active?)
   end
 
+  # @return [Array<Player>]
+  def active_players_since(num_rounds: 3)
+    active_players.select do |player|
+      rounds.last(num_rounds).any? do |round|
+        !player.existed_since?(round) || player.played_in?(round)
+      end
+    end
+  end
+
   # @param user [User]
   # @return [Player, nil]
   def active_player_for(user)
@@ -25,21 +34,5 @@ class Game < ApplicationRecord
   # @return [Player, nil]
   def current_judge
     current_round&.judge
-  end
-
-  # @return [Array<Player>]
-  def inactive_players(num_rounds: 3)
-    @inactive_players ||=
-      begin
-        player_list = active_players.to_a.dup
-
-        rounds.last(num_rounds).each do |round|
-          player_list.delete_if do |player|
-            !player.existed_since?(round) || player.played_in?(round)
-          end
-        end
-
-        player_list
-      end
   end
 end

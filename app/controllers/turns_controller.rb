@@ -13,21 +13,15 @@ class TurnsController < ApplicationController
     if @turn.save
       game = Game.find(@turn.game.id) # work from latest data
 
-      # Delete inactive players
-      game.inactive_players.each do |inactive_player|
-        inactive_player.update(deleted_at: Time.current)
-      end
-
       # Show the Next Turn link to all other players
       game.players.each do |player|
         next if player == current_player
 
-        participant = game.current_round.participants.build(player:)
         PlayerChannel.broadcast_update_to(
           player,
           target: "new_turn",
-          partial: "participants/form",
-          locals: { participant: }
+          partial: "games/current_round_link",
+          locals: { game: }
         )
       end
 

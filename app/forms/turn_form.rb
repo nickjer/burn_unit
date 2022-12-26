@@ -7,6 +7,9 @@ class TurnForm < ApplicationForm
   # @return [Round]
   attr_reader :previous_round
 
+  # @return [Array<Player>]
+  attr_reader :participating_players
+
   # Validations
   validates :previous_round_status, inclusion: { in: %w[completed] }
   validate :round_is_valid
@@ -14,14 +17,15 @@ class TurnForm < ApplicationForm
   # @param judge [Player]
   # @param params [#to_h]
   def initialize(judge:, **params)
-    @previous_round = judge.game.current_round
+    game = judge.game
+    @previous_round = game.current_round
 
-    participants = judge.game.active_players
-      .map { |player| Participant.new(player:) }
+    @participating_players = game.active_players_since(num_rounds: 3)
     @round = Round.new(
       game: judge.game,
       judge:,
-      participants:,
+      participants:
+        participating_players.map { |player| Participant.new(player:) },
       hide_voters: previous_round.hide_voters,
       order: previous_round.order + 1
     )
@@ -45,13 +49,22 @@ class TurnForm < ApplicationForm
   def save
     return false unless valid?
 
-    round.save
+    round.save &&
+      inactive_players.all? do |inactive_player|
+        inactive_player.update(deleted_at: Time.current)
+      end
   end
 
   private
 
+  # @return [String]
   def previous_round_status
     previous_round.status
+  end
+
+  # @return [Array]
+  def inactive_players
+    game.active_players.difference(participating_players)
   end
 
   # @return [void]
