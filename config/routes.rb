@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
     resources :rounds, only: %i[show], shallow: true do
       resources :completed_rounds, only: %i[create]
-      resources :participants, only: %i[create], shallow: true do
+      resources :participants, only: %i[], shallow: true do
         resources :votes, only: %i[create update]
       end
     end

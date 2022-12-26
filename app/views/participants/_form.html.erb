@@ -1,9 +1,0 @@
-<%=
-  simple_form_for(
-    [participant.round, participant],
-    method: :post,
-    html: { class: "d-grid gap-2" }
-  ) do |form|
-%>
-  <%= form.button :button, "Join Round", class: "btn-primary btn-lg" %>
-<%- end -%>
