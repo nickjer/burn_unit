@@ -4,7 +4,9 @@ require "sidekiq/web"
 
 Rails.application.routes.draw do
   resources :games, only: %i[show], shallow: true do
-    resources :players, only: %i[create edit new update], shallow: true do
+    resources :new_players, only: %i[create new]
+
+    resources :players, only: %i[edit update], shallow: true do
       resources :turns, only: %i[create new]
     end
 

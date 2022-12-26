@@ -1,0 +1,20 @@
+<h3 class="mt-2 mb-4">Create your player to join this game:</h3>
+
+<%= simple_form_for(@new_player, url: game_new_players_path(@new_player.game) ) do |form| %>
+  <%= form.error_notification %>
+  <%- form.object.errors.to_hash(true).except(:player).each_value do |error_msgs| -%>
+    <%= form.error_notification message: error_msgs.to_sentence %>
+  <%- end -%>
+
+  <%= form.simple_fields_for :player do |player_form| %>
+    <%- player_form.object.errors.to_hash(true).except(:name).each_value do |error_msgs| -%>
+      <%= player_form.error_notification message: error_msgs.to_sentence %>
+    <%- end -%>
+
+    <%= player_form.input :name, label: "Player name", input_html: { maxlength: 20 } %>
+  <% end %>
+
+  <div class="d-grid gap-2">
+    <%= form.button :submit, "Create New Player", class: "btn-primary btn-lg" %>
+  </div>
+<% end %>

@@ -1,5 +1,16 @@
 <h1>Edit player</h1>
 
 <%= turbo_frame_tag("main") do %>
-  <%= render "form", player: @player %>
+  <%= simple_form_for(@player) do |form| %>
+    <%= form.error_notification %>
+    <%- form.object.errors.to_hash(true).slice(:base, :game, :user).each_value do |error_msg| -%>
+      <%= form.error_notification message: error_msg.to_sentence %>
+    <%- end -%>
+
+    <%= form.input :name, label: "Player name", input_html: { maxlength: 20 } %>
+
+    <div class="d-grid gap-2">
+      <%= form.button :submit, class: "btn-primary btn-lg" %>
+    </div>
+  <% end %>
 <% end %>
