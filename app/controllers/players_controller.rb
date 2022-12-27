@@ -11,7 +11,13 @@ class PlayersController < ApplicationController
     @player = Player.where(user: @user).find(params[:id])
 
     if @player.update(player_params)
-      RedrawPlayerJob.perform_later(@player)
+      @player.game.active_players.each do |participating_player|
+        PlayerChannel.broadcast_update_to(
+          participating_player,
+          targets: "#player_#{@player.id} .player-name",
+          html: @player.name
+        )
+      end
 
       game_presenter =
         GamePresenter.new(game: @player.game, current_player: @player)

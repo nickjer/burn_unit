@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="sorter"
 export default class extends Controller {
   static targets = [ "item" ]
+
   connect() {
   }
 
