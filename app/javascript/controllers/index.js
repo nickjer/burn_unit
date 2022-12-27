@@ -7,11 +7,5 @@ import { application } from "./application"
 import ConfirmSubmitController from "./confirm_submit_controller"
 application.register("confirm-submit", ConfirmSubmitController)
 
-import PlayerController from "./player_controller"
-application.register("player", PlayerController)
-
 import SorterController from "./sorter_controller"
 application.register("sorter", SorterController)
-
-import TallyVotesController from "./tally_votes_controller"
-application.register("tally-votes", TallyVotesController)

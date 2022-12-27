@@ -3,24 +3,27 @@
   data-sorter-target="item"
   data-sort-by="<%= player.name %>"
   data-controller="player"
-  data-player-online-value="<%= player.online? || player == me %>"
-  data-player-voted-value="<%= player.current_vote&.persisted?.present? %>"
-  data-player-judge-value="<%= player == judge %>"
-  data-player-me-value="<%= player == me %>"
-  data-player-name-value="<%= player.name %>"
-  data-player-id-value="<%= player.id %>"
-  data-player-edit-url-value="<%= edit_player_path(player) %>"
 >
-  <div data-player-target="name" class="d-inline"></div>
-  <div data-player-target="edit" class="d-none">
-    <%=
-      link_to(
-        edit_player_path(player),
-        class: "btn btn-outline-dark btn-sm ms-3",
-        role: "button",
-        data: { "turbo-frame": "main" }
-      ) do %>
-      <i class="bi bi-pencil"></i>
-    <% end %>
+  <div class="d-inline player-online">
+    <%= render "players/online", online: (player.online? || player == me) %>
   </div>
+  <div class="d-inline player-voted">
+    <%= render "players/voted", voted: player.current_vote&.persisted?.present? %>
+  </div>
+  <div class="<%= class_names("d-inline", "player-name", "player-judge": (player == judge)) %>">
+    <%= player.name %>
+  </div>
+  <%- if player == me -%>
+    <div class="d-inline player-edit">
+      <%=
+        link_to(
+          edit_player_path(player),
+          class: "btn btn-outline-dark btn-sm ms-3",
+          role: "button",
+          data: { "turbo-frame": "main" }
+        ) do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+    </div>
+  <%- end -%>
 </div>

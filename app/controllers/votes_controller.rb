@@ -11,7 +11,15 @@ class VotesController < ApplicationController
     @vote = participant.build_vote(vote_params)
 
     if @vote.save
-      RedrawPlayerJob.perform_later(participant.player)
+      player = participant.player
+      player.game.active_players.each do |participating_player|
+        PlayerChannel.broadcast_update_to(
+          participating_player,
+          targets: "#player_#{player.id} .player-voted",
+          partial: "players/voted",
+          locals: { voted: true }
+        )
+      end
       render :update
     else
       render :create, status: :unprocessable_entity
