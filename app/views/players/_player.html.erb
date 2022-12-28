@@ -1,8 +1,6 @@
 <div
   id="<%= dom_id player %>"
   data-sorter-target="item"
-  data-sort-by="<%= player.name %>"
-  data-controller="player"
 >
   <div class="d-inline player-online">
     <%= render "players/online", online: (player.online? || player == me) %>
@@ -10,7 +8,9 @@
   <div class="d-inline player-voted">
     <%= render "players/voted", voted: player.current_vote&.persisted?.present? %>
   </div>
-  <div class="<%= class_names("d-inline", "player-name", "player-judge": (player == judge)) %>">
+  <div
+    class="<%= class_names("d-inline", "player-name", "player-judge": (player == judge)) %>"
+  >
     <%= player.name %>
   </div>
   <%- if player == me -%>

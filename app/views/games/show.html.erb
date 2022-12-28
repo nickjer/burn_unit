@@ -16,10 +16,17 @@
   <%# Player List %>
   <div class="col-md-4 mb-3">
     <strong>Players:</strong>
-    <%= turbo_frame_tag("players", class: "players", "data-controller": "sorter") do %>
+    <%=
+      turbo_frame_tag(
+        "players",
+        class: "players",
+        "data-controller": "sorter",
+        "data-sorter-target-value": ".player-name"
+      ) do
+    %>
       <%=
         render(
-          @game.active_players,
+          @game.active_players.sort_by(&:name),
           judge: @game.current_judge,
           me: @game.current_player
         )
