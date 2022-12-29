@@ -21,6 +21,11 @@ class Round < ApplicationRecord
   end
 
   # @return [Array<Participant>]
+  def winning_candidates
+    participants.group_by(&:total_votes).max.last
+  end
+
+  # @return [Array<Participant>]
   def ordered_candidates
     participants
       .sort_by { |candidate| [-candidate.total_votes, candidate.name] }

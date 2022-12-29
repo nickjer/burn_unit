@@ -34,6 +34,11 @@ class Participant < ApplicationRecord
     votes.size
   end
 
+  # @return [Boolean]
+  def won?
+    round.winning_candidates.include?(self)
+  end
+
   private
 
   # @return [void]

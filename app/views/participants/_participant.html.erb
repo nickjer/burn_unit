@@ -1,5 +1,5 @@
-<div class="card text-bg-light mb-2">
-  <div class="card-header" data-player="<%= participant.player.id %>">
+<div class="card text-bg-light mb-2<%= " border-success" if participant.won? %>">
+  <div class="card-header<%= " border-success" if participant.won?%>" data-player="<%= participant.player.id %>">
     <h5 class="card-title player-name">
       <%= participant.name %>
     </h5>
