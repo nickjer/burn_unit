@@ -1,7 +1,15 @@
 <%# Question Card %>
-<div class="card border-secondary mb-2">
+<div class="card border-secondary mb-2 shadow-sm bg-body rounded">
   <div class="card-body">
-    <strong><%= round.least_likely? ? "Least" : "Most" %> likely to...</strong>
+    <%- if round.least_likely? -%>
+      <span class="text-danger fw-bold">
+        <span class="text-decoration-underline">Least</span> likely to...
+      </span>
+    <%- else -%>
+      <span class="text-primary fw-bold">
+        <span class="text-decoration-underline">Most</span> likely to...
+      </span>
+    <%- end -%>
     <%= round.question %>
   </div>
 </div>
