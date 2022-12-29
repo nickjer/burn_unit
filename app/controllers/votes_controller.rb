@@ -15,7 +15,7 @@ class VotesController < ApplicationController
       player.game.active_players.each do |participating_player|
         PlayerChannel.broadcast_update_to(
           participating_player,
-          targets: "#player_#{player.id} .player-voted",
+          targets: "[data-player=\"#{player.id}\"] .player-voted",
           partial: "players/voted",
           locals: { voted: true }
         )

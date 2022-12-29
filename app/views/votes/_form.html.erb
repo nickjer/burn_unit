@@ -21,7 +21,18 @@
         html: { class: "mt-2" }
       ) do |form|
     %>
-      <%= form.association :candidate, collection: vote.possible_candidates %>
+      <%=
+        form.association(
+          :candidate,
+          collection: [],
+          as: :select_block,
+          options: render(
+            partial: "votes/candidate",
+            collection: vote.possible_candidates,
+            locals: { selected: vote.candidate }
+          )
+        )
+      %>
 
       <div class="d-grid gap-2 mt-2">
         <%= form.button :submit, class: "btn-primary btn-lg" %>

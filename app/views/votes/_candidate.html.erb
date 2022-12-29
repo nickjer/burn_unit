@@ -1,0 +1,13 @@
+<%- if candidate.present? -%>
+  <%=
+    tag.option(
+      candidate.name,
+      selected: (candidate == selected),
+      value: candidate.id,
+      class: "player-name",
+      data: { player: candidate.player_id }
+    )
+  %>
+<%- else -%>
+  <option value="" label=" "></option>
+<%- end -%>

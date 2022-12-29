@@ -17,8 +17,8 @@ class NewPlayersController < ApplicationController
         PlayerChannel.broadcast_append_later_to(
           player,
           target: "vote_candidate_id",
-          partial: "votes/candidate_option",
-          locals: { candidate: @new_player.participant }
+          partial: "votes/candidate",
+          locals: { candidate: @new_player.participant, selected: false }
         )
         PlayerChannel.broadcast_append_later_to(
           player,

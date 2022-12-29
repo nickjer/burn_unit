@@ -14,18 +14,12 @@ class PlayersController < ApplicationController
       @player.game.active_players.each do |participating_player|
         PlayerChannel.broadcast_update_to(
           participating_player,
-          targets: "#player_#{@player.id} .player-name",
+          targets: "[data-player=\"#{@player.id}\"].player-name,[data-player=\"#{@player.id}\"] .player-name",
           html: @player.name
         )
       end
 
-      game_presenter =
-        GamePresenter.new(game: @player.game, current_player: @player)
-      RedrawCurrentRoundJob.perform_later(@player.game, except_to: @player)
-      render(
-        turbo_stream: turbo_stream.update("main",
-          partial: "games/current_round", locals: { game: game_presenter })
-      )
+      redirect_to @player.game
     else
       render :edit, status: :unprocessable_entity
     end
