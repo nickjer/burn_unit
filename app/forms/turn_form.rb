@@ -13,6 +13,7 @@ class TurnForm < ApplicationForm
   # Validations
   validates :previous_round_status, inclusion: { in: %w[completed] }
   validate :round_is_valid
+  validate :did_not_judge_previously
 
   # @param judge [Player]
   # @param params [#to_h]
@@ -72,5 +73,12 @@ class TurnForm < ApplicationForm
     return if round.valid?
 
     errors.add(:round, "is invalid")
+  end
+
+  # @return [void]
+  def did_not_judge_previously
+    return if previous_round.judge != round.judge
+
+    errors.add(:base, "Judged in previous round")
   end
 end
