@@ -10,7 +10,7 @@
     <%= render "players/voted", voted: player.current_vote&.persisted?.present? %>
   </div>
   <div
-    class="<%= class_names("d-inline", "player-name", "player-judge": (player == judge)) %>"
+    class="<%= class_names("d-inline", "player-name", "is-judge": (player == judge)) %>"
   >
     <%= player.name %>
   </div>

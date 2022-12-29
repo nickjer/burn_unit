@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
       @player.game.active_players.each do |participating_player|
         PlayerChannel.broadcast_update_to(
           participating_player,
-          targets: "[data-player=\"#{@player.id}\"].player-name,[data-player=\"#{@player.id}\"] .player-name",
+          targets: @player.selector_for(:name),
           html: @player.name
         )
       end

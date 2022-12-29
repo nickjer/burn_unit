@@ -41,6 +41,15 @@ class Player < ApplicationRecord
     end
   end
 
+  # @param attrib [#to_s]
+  # @return [String]
+  def selector_for(attrib)
+    <<~SELECTOR.squish
+      [data-player="#{id}"].player-#{attrib},
+      [data-player="#{id}"] .player-#{attrib}
+    SELECTOR
+  end
+
   # @return [Participant, nil]
   def current_participant
     game.current_round.participants.find do |participant|

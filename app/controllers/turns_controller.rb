@@ -14,7 +14,7 @@ class TurnsController < ApplicationController
       game = Game.find(@turn.game.id) # work from latest data
 
       # Show the Next Turn link to all other players
-      game.players.each do |player|
+      game.active_players.each do |player|
         next if player == current_player
 
         PlayerChannel.broadcast_update_to(
@@ -23,9 +23,15 @@ class TurnsController < ApplicationController
           partial: "games/current_round_link",
           locals: { game: }
         )
-      end
 
-      RedrawPlayersJob.perform_later(game)
+        PlayerChannel.broadcast_update_later_to(
+          player,
+          target: "players",
+          collection: game.active_players,
+          partial: "players/player",
+          locals: { judge: game.current_judge, me: player }
+        )
+      end
 
       game_presenter = GamePresenter.new(game:, current_player:)
       render(

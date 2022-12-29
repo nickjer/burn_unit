@@ -58,13 +58,11 @@ class PlayerChannel < ApplicationCable::Channel
     game.active_players.each do |other_player|
       next if other_player == player
 
-      self.class.broadcast_replace_later_to(
+      self.class.broadcast_update_later_to(
         other_player,
-        target: player,
-        partial: "players/player",
-        locals: {
-          player:, judge: game.current_judge, me: other_player
-        }
+        targets: player.selector_for(:online),
+        partial: "players/online",
+        locals: { online: player.online? }
       )
     end
   end
