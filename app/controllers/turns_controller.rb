@@ -15,6 +15,13 @@ class TurnsController < ApplicationController
 
       # Show the Next Turn link to all other players
       game.active_players.each do |player|
+        PlayerChannel.broadcast_update_later_to(
+          player,
+          target: "players",
+          collection: game.active_players,
+          partial: "players/player",
+          locals: { judge: game.current_judge, me: player }
+        )
         next if player == current_player
 
         PlayerChannel.broadcast_update_to(
@@ -23,21 +30,9 @@ class TurnsController < ApplicationController
           partial: "games/current_round_link",
           locals: { game: }
         )
-
-        PlayerChannel.broadcast_update_later_to(
-          player,
-          target: "players",
-          collection: game.active_players,
-          partial: "players/player",
-          locals: { judge: game.current_judge, me: player }
-        )
       end
 
-      game_presenter = GamePresenter.new(game:, current_player:)
-      render(
-        turbo_stream: turbo_stream.update("main",
-          partial: "games/current_round", locals: { game: game_presenter })
-      )
+      redirect_to game
     else
       render :create, status: :unprocessable_entity
     end

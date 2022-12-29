@@ -1,6 +1,6 @@
 <div class="card text-bg-light mb-2">
-  <div class="card-header">
-    <h5 class="card-title">
+  <div class="card-header" data-player="<%= participant.player.id %>">
+    <h5 class="card-title player-name">
       <%= participant.name %>
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">
@@ -10,7 +10,9 @@
   <%- if show_voters -%>
     <ul class="list-group list-group-flush">
       <%- participant.voters.each do |voter| -%>
-        <li class="list-group-item"><%= voter.to_label %></li>
+        <li class="list-group-item player-name" data-player="<%= voter.player.id %>">
+          <%= voter.name %>
+        </li>
       <%- end -%>
     </ul>
   <%- end -%>
