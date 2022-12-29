@@ -1,0 +1,11 @@
+<%=
+  tag.button(
+    name: "button",
+    type: "submit",
+    id: "tally_votes",
+    class: %w[btn btn-warning btn-lg],
+    disabled: !round.tally_votes?
+  ) do
+%>
+  Tally Votes
+<% end %>

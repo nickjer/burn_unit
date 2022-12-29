@@ -12,11 +12,7 @@
     }
   ) do |form|
 %>
-  <%=
-    form.button :button, "Tally Votes",
-      class: "btn-warning btn-lg",
-      disabled: true
-  %>
+  <%= render "completed_rounds/tally_votes", round: %>
 
   <!-- Modal -->
   <div

@@ -31,6 +31,11 @@ class Round < ApplicationRecord
     !hide_voters?
   end
 
+  # @return [Boolean]
+  def tally_votes?
+    votes.size > 1
+  end
+
   private
 
   # @return [void]

@@ -20,6 +20,12 @@ class VotesController < ApplicationController
           locals: { voted: true }
         )
       end
+      PlayerChannel.broadcast_replace_to(
+        player.game.current_judge,
+        target: "tally_votes",
+        partial: "completed_rounds/tally_votes",
+        locals: { round: player.game.current_round }
+      )
       render :update
     else
       render :create, status: :unprocessable_entity
