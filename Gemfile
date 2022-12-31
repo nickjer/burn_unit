@@ -49,7 +49,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 # Use Sidekiq for ActiveJob's queueing backend
-gem "sidekiq", "~> 6.3"
+gem "sidekiq", "~> 7.0"
 
 # Flexible form builder
 gem "simple_form", github: "heartcombo/simple_form"

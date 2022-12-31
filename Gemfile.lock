@@ -218,10 +218,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (6.5.5)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      redis (>= 4.5.0)
+    sidekiq (7.0.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     thor (1.2.1)
@@ -270,7 +271,7 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-rails
   selenium-webdriver
-  sidekiq (~> 6.3)
+  sidekiq (~> 7.0)
   simple_form!
   stimulus-rails (~> 1.2)
   turbo-rails (~> 1.3)
