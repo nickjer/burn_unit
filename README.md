@@ -4,15 +4,25 @@ This is a work in progress... There is leftover code everywhere with no tests.
 
 ## Demo
 
-You can play with it at: TODO
+You can play with it at: https://bu.nicklas.cloud/
 
 ## How does it work
 
-TODO
+This is meant to only facilitate actual in-person game play. Someone starts off
+as a judge for the rounds and enters a question. Each player that joins votes
+for the most (or least) likely candidate. After the votes are tallied the
+person with the most votes accumulates their votes as their score.
+
+This game does not keep track of each individual players' score. The player
+with the highest score whenever you choose to end the game is considered to
+have lost. In the case of a tie during a round then the judge should probably
+decide who wins that round (but this is up to the players and not part of the
+online game).
 
 ## Why
 
-TODO
+My family enjoys party games but we find writing answers down on paper and
+passing them around to be cumbersome. This makes playing the game easier.
 
 ## How to setup
 
