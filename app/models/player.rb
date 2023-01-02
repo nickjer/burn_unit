@@ -24,8 +24,8 @@ class Player < ApplicationRecord
   # @return [void]
   def name=(value)
     normalized_value = value.to_s.unicode_normalize(:nfkc).squish
-    normalized_value = normalized_value.gsub(/\P{Print}|\p{Cf}/, "").presence
-    normalized_value = normalized_value.gsub(/ethany/i, "etsy")
+    normalized_value = normalized_value.gsub(/\P{Print}|\p{Cf}/, "")
+    normalized_value = normalized_value.gsub(/ethany/i, "etsy").presence
     super(normalized_value)
   end
 
