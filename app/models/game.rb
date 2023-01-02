@@ -13,6 +13,8 @@ class Game < ApplicationRecord
 
   # @return [Array<Player>]
   def active_players_since(num_rounds: 3)
+    return active_players if rounds.size < num_rounds
+
     active_players.select do |player|
       rounds.last(num_rounds).any? do |round|
         !player.existed_since?(round) || player.played_in?(round)
