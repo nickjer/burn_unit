@@ -47,7 +47,7 @@ class Round < ApplicationRecord
   def judge_in_game
     return if game == judge.game
 
-    errors.add(:judge, "Does not exist in this game")
+    errors.add(:judge, "does not exist in this game")
   end
 
   # @return [void]
@@ -56,7 +56,7 @@ class Round < ApplicationRecord
     return if highest_order.blank?
     return if (order - 1) == highest_order
 
-    errors.add(:order, "Must be the next highest integer")
+    errors.add(:order, "must be the next highest integer")
   end
 
   # @return [void]
