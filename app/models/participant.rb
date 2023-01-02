@@ -14,11 +14,6 @@ class Participant < ApplicationRecord
   #   @return [String]
   delegate :name, to: :player
 
-  # @return [String]
-  def to_label
-    player.name
-  end
-
   # @return [Array<Vote>]
   def votes
     round.votes.select { |vote| vote.candidate == self }
@@ -26,7 +21,7 @@ class Participant < ApplicationRecord
 
   # @return [Array<Participant>]
   def voters
-    votes.map(&:voter).sort_by(&:to_label)
+    votes.map(&:voter).sort_by(&:name)
   end
 
   # @return [Integer]

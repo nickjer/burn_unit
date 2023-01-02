@@ -12,7 +12,7 @@ class Vote < ApplicationRecord
   def possible_candidates
     voter.round.participants
       .reject { |participant| participant == voter }
-      .sort_by(&:to_label)
+      .sort_by(&:name)
   end
 
   private
