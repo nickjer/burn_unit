@@ -1,4 +1,4 @@
-FROM ruby:3.2.0-alpine AS builder
+FROM ruby:3.2.1-alpine AS builder
 
 RUN apk add --no-cache \
       postgresql-dev \
@@ -36,7 +36,7 @@ RUN bundle exec rails assets:precompile --trace && \
 
 ############################################################
 
-FROM ruby:3.2.0-alpine
+FROM ruby:3.2.1-alpine
 
 # Add basic packages
 RUN apk add --no-cache \
