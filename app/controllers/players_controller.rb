@@ -17,6 +17,11 @@ class PlayersController < ApplicationController
           targets: @player.selector_for(:name),
           html: @player.name
         )
+        PlayerChannel.broadcast_update_to(
+          participating_player,
+          targets: @player.selector_for(:sortable_name),
+          html: @player.sortable_name
+        )
       end
 
       redirect_to @player.game

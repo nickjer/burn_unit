@@ -21,12 +21,12 @@
         "players",
         class: "players",
         "data-controller": "sorter",
-        "data-sorter-target-value": ".player-name"
+        "data-sorter-target-value": ".player-sortable-name"
       ) do
     %>
       <%=
         render(
-          @game.active_players.sort_by(&:name),
+          @game.active_players.sort_by(&:sortable_name),
           judge: @game.current_judge,
           me: @game.current_player
         )

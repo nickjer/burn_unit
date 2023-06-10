@@ -3,6 +3,9 @@
   data-player="<%= player.id %>"
   data-sorter-target="item"
 >
+  <div class="d-none player-sortable-name">
+    <%= player.sortable_name %>
+  </div>
   <div class="d-inline player-online">
     <%= render "players/online", online: (player.online? || player == me) %>
   </div>

@@ -33,8 +33,10 @@ export default class extends Controller {
   }
 
   compareElements = (firstElement, secondElement) => {
-    const firstValue = firstElement.querySelector(this.targetValue).innerText
-    const secondValue = secondElement.querySelector(this.targetValue).innerText
+    const firstValue =
+      firstElement.querySelector(this.targetValue).innerText.trim()
+    const secondValue =
+      secondElement.querySelector(this.targetValue).innerText.trim()
     return firstValue.localeCompare(secondValue)
   }
 
